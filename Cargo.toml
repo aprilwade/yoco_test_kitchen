@@ -16,7 +16,7 @@ bevy_ecs = "0.10"
 # This really should be declared in the more expanded format, but it doesn't
 # work for reasons I fail to understand
 [target.'cfg(target_arch = "wasm32")'.dependencies]
-bevy = { version = "0.10", default-features = false, features = [ "bevy_asset", "bevy_core_pipeline", "bevy_render", "bevy_sprite", "bevy_text", "bevy_ui", "png" ] }
+bevy = { version = "0.10", default-features = false, features = [ "bevy_asset", "bevy_core_pipeline", "bevy_render", "bevy_sprite", "bevy_text", "bevy_ui", "bevy_winit", "png" ] }
 bevy_ecs = "0.10"
 
 [profile.dev.package."*"]

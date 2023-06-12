@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <title>YoCo Test Kitchen</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        canvas:focus {
+            outline: none;
+        }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      import init, { } from './pkg/yoco_test_kitchen.js';
+
+      async function run() {
+        await init();
+      }
+
+      run();
+    </script>
+  </body>
+</html>
