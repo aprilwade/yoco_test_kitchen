@@ -18,7 +18,7 @@ jobs:
         run: curl -s -L https://github.com/WebAssembly/binaryen/releases/download/version_113/binaryen-version_113-x86_64-linux.tar.gz | tar xvz
 
       - name: Optimize WASM
-        run: binaryen-version_113/bin/wasm-opt -O2 -o ./yoco_test_kitchen.wasm target/wasm32-unknown-unknown/release/yoco_test_kitchen.wasm
+        run: binaryen-version_113/bin/wasm-opt -O1 -o ./yoco_test_kitchen.wasm target/wasm32-unknown-unknown/release/yoco_test_kitchen.wasm
 
       - name: Install wasm-bindgen
         run: cargo install -f wasm-bindgen-cli --version 0.2.86
