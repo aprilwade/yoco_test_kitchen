@@ -1,0 +1,26 @@
+[package]
+name = "yoco_test_kitchen"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rand = "0.8"
+bevy_tweening = "0.7"
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+bevy = "0.10"
+# XXX I have no idea why I need to manually add these to make the derive macros work :\
+bevy_reflect = "0.10"
+bevy_ecs = "0.10"
+
+# This really should be declared in the more expanded format, but it doesn't
+# work for reasons I fail to understand
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+bevy = { version = "0.10", default-features = false, features = [ "bevy_asset", "bevy_core_pipeline", "bevy_render", "bevy_sprite", "bevy_text", "bevy_ui", "png" ] }
+bevy_ecs = "0.10"
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+lto = true
