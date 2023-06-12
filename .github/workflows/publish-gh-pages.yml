@@ -1,0 +1,48 @@
+name: Publish to Github Pages
+run-name: Publish to Github Pages
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-unknown-unknown
+
+      - name: Build WASM
+        run: cargo build --release --target=wasm32-unknown-unknown
+
+      - name: Download and unpack Binaryen
+        run: curl -s -L https://github.com/WebAssembly/binaryen/releases/download/version_113/binaryen-version_113-x86_64-linux.tar.gz | tar xvz
+
+      - name: Optimize WASM
+        run: binaryen-version_113/bin/wasm-opt -O2 -o ./yoco_test_kitchen.wasm target/wasm32-unknown-unknown/release/yoco_test_kitchen.wasm
+
+      - name: Install wasm-bindgen
+        run: cargo install -f wasm-bindgen-cli --version 0.2.86
+
+      - name: Run wasm-bindgen
+        run: wasm-bindgen --out-dir ./www/pkg --target web ./yoco_test_kitchen.wasm
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./www
+
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Github Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+
+
